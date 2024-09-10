@@ -140,7 +140,7 @@ namespace AutoCommitMessage
         {
             try
             {
-                Cmd.Shell("git", $"commit -m {CommitMessage.Text} -m{CommitDescription.Text}");
+                var eee = Cmd.Shell("git", $"commit -m \"{CommitMessage.Text}\" -m \"{CommitDescription.Text}\"");
 
                 UpdateTextMessage("Commit");
             }
@@ -154,7 +154,7 @@ namespace AutoCommitMessage
         {
             try
             {
-                Cmd.Shell("git", "push");
+                var eee = Cmd.Shell("git", "push");
 
                 UpdateTextMessage("Push");
             }
