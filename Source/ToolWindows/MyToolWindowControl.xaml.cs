@@ -15,11 +15,12 @@ namespace AutoCommitMessage
         public MyToolWindowControl()
         {
             InitializeComponent();
-            MyTreeViewItem.Header = AppContext.GetOpenedFolder();
         }
 
         private void ReloadChangeListData()
         {
+            MyTreeViewItem.Header = AppContext.GetOpenedFolder();
+
             var gitShell = Cmd.Shell("git", "status -s");
 
             ChangeListData = FileData.GetListData(gitShell).ToList();
@@ -140,12 +141,16 @@ namespace AutoCommitMessage
         {
             var message = Cmd.Shell("git", $"commit -m \"{CommitMessage.Text}\" -m \"{CommitDescription.Text}\"");
 
+            ReloadChangeListData();
+
             VS.MessageBox.Show(message);
         }
 
         private void Push_OnClick(object sender, RoutedEventArgs e)
         {
             var message = Cmd.Shell("git", "push");
+
+            ReloadChangeListData();
 
             VS.MessageBox.Show(message);
         }

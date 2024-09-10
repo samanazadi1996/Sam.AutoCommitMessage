@@ -9,11 +9,10 @@ internal class AppContext
     {
         ThreadHelper.ThrowIfNotOnUIThread();
 
-        var solutionService = Package.GetGlobalService(typeof(SVsSolution)) as IVsSolution;
-        if (solutionService == null)
+        if (Package.GetGlobalService(typeof(SVsSolution)) is not IVsSolution solutionService)
             return null;
 
-        solutionService.GetSolutionInfo(out string solutionDir, out string solutionFile, out string userOptsFile);
+        solutionService.GetSolutionInfo(out var solutionDir, out var solutionFile, out var userOptsFile);
 
         if (!string.IsNullOrEmpty(solutionFile) && Directory.Exists(solutionDir))
         {
