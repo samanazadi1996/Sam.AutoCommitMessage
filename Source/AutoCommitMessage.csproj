@@ -45,7 +45,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Helper\AppContext.cs" />
     <Compile Include="Helper\Cmd.cs" />
+    <Compile Include="Models\FileNode.cs" />
+    <Compile Include="Models\FileType.cs" />
+    <Compile Include="Models\FileData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\MyToolWindowCommand.cs" />
     <Compile Include="AutoCommitMessagePackage.cs" />

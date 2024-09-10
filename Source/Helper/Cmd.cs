@@ -1,14 +1,12 @@
-﻿using Microsoft.VisualStudio.Shell.Interop;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Diagnostics;
 
 namespace AutoCommitMessage.Helper
 {
     internal class Cmd
     {
-        public static string Shell(string app,string arg)
+        public static string Shell(string app, string arg)
         {
-            string directory = GetOpenedFolder();
+            string directory = AppContext.GetOpenedFolder();
             if (string.IsNullOrEmpty(directory))
                 return "Invalid directory";
 
@@ -40,25 +38,6 @@ namespace AutoCommitMessage.Helper
 
                 return result;
             }
-            string GetOpenedFolder()
-            {
-                ThreadHelper.ThrowIfNotOnUIThread();
-
-                var solutionService = Package.GetGlobalService(typeof(SVsSolution)) as IVsSolution;
-                if (solutionService == null)
-                    return null;
-
-                solutionService.GetSolutionInfo(out string solutionDir, out string solutionFile, out string userOptsFile);
-
-                if (!string.IsNullOrEmpty(solutionFile) && Directory.Exists(solutionDir))
-                {
-                    return solutionDir;
-                }
-
-                return null;
-            }
-
-
         }
 
     }
