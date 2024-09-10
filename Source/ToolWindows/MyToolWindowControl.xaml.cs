@@ -38,14 +38,16 @@ namespace AutoCommitMessage
                 {
                     CommitMessage.Text = GetCommitMessage(stagedItems);
                     CommitDescription.Text = string.Join(Environment.NewLine, stagedItems.Select(p => $"{p.Type} : {p.Location}"));
+
+                    UpdateTextMessage("Generate Message");
                 }
                 else
                 {
-                    CommitMessage.Text = "No Change";
                     CommitDescription.Text = string.Empty;
+
+                    UpdateTextMessage("No Change on Stage");
                 }
 
-                UpdateTextMessage("Generate Message");
             }
             catch
             {
@@ -56,16 +58,13 @@ namespace AutoCommitMessage
 
                 var detailedMessage = string.Join(" and ", changeListData.Select(p => p.Text));
 
-                if (detailedMessage.Length > 150)
-                {
-                    var summarizedMessage = changeListData
-                        .GroupBy(change => change.Type)
-                        .Select(group => $"{group.Count()} {(group.Count() > 1 ? "files" : "file")} {group.Key.ToString().ToLower()}");
+                if (detailedMessage.Length <= 150) return detailedMessage;
 
-                    detailedMessage = string.Join(" and ", summarizedMessage);
-                }
+                var summarizedMessage = changeListData
+                    .GroupBy(change => change.Type)
+                    .Select(group => $"{group.Count()} {(group.Count() > 1 ? "files" : "file")} {group.Key.ToString().ToLower()}");
 
-                return detailedMessage;
+                return string.Join(" and ", summarizedMessage);
 
             }
         }
@@ -80,6 +79,7 @@ namespace AutoCommitMessage
             }
 
             MyTreeViewItem.ExpandSubtree();
+            return;
 
             void AddFileToTree(TreeViewItem rootItem, FileNode fileNode)
             {
@@ -100,12 +100,11 @@ namespace AutoCommitMessage
                 }
                 rootItem.Items.Add(newItem);
 
-                if (fileNode.Children.Any())
+                if (!fileNode.Children.Any()) return;
+
+                foreach (var itemChild in fileNode.Children)
                 {
-                    foreach (var itemChild in fileNode.Children)
-                    {
-                        AddFileToTree(newItem, itemChild);
-                    }
+                    AddFileToTree(newItem, itemChild);
                 }
             }
             void ToggleStage(FileNode file)
@@ -113,55 +112,42 @@ namespace AutoCommitMessage
                 var name = file.Name;
                 GetParentName(file.Parent);
 
-                void GetParentName(FileNode fn)
-                {
-                    if (fn != null)
-                    {
-                        name = fn.Name + "/" + name;
-
-                        GetParentName(fn.Parent);
-                    }
-                }
-
                 var find = ChangeListData.FirstOrDefault(p => p.Location.EndsWith(name));
                 if (find is not null)
                 {
                     find.IsStaged = !find.IsStaged;
                     var fileName = find.Location.Split(new[] { " -> " }, StringSplitOptions.None)[0];
 
-                    Cmd.Shell("git", find.IsStaged ? $"add {fileName}" : $"restore --staged {fileName}");
+                    Cmd.Shell("git", find.IsStaged ? $"add \"{fileName}\"" : $"restore --staged \"{fileName}\"");
                 }
                 ReloadTreeView();
+                return;
 
+                void GetParentName(FileNode fn)
+                {
+                    while (true)
+                    {
+                        if (fn == null) return;
+                        name = fn.Name + "/" + name;
+
+                        fn = fn.Parent;
+                    }
+                }
             }
         }
 
         private void Commit_OnClick(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                Cmd.Shell("git", $"commit -m \"{CommitMessage.Text}\" -m \"{CommitDescription.Text}\"");
+            var message = Cmd.Shell("git", $"commit -m \"{CommitMessage.Text}\" -m \"{CommitDescription.Text}\"");
 
-                UpdateTextMessage("Commit");
-            }
-            catch
-            {
-                UpdateTextMessage("Error");
-            }
+            VS.MessageBox.Show(message);
         }
 
         private void Push_OnClick(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                Cmd.Shell("git", "push");
+            var message = Cmd.Shell("git", "push");
 
-                UpdateTextMessage("Push");
-            }
-            catch
-            {
-                UpdateTextMessage("Error");
-            }
+            VS.MessageBox.Show(message);
         }
 
         private void UpdateTextMessage(string text)
@@ -171,16 +157,9 @@ namespace AutoCommitMessage
 
         private void Stage_OnClick(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                Cmd.Shell("git", "add .");
+            Cmd.Shell("git", "add .");
 
-                UpdateTextMessage("Stage");
-            }
-            catch
-            {
-                UpdateTextMessage("Error");
-            }
+            ReloadChangeListData();
         }
 
         private void Refresh_OnClick(object sender, RoutedEventArgs e)
