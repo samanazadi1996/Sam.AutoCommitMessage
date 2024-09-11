@@ -7,7 +7,7 @@ In the fast-paced world of software development, maintaining a clear and consist
 To start using Sam.AutoCommitMessage, follow these simple steps:
 
 1. **Install from Marketplace**:
-   - You can install the extension directly from Visual Studio or download and install it from this [link](https://marketplace.visualstudio.com/items?itemName=samanazadi1996.Sam.AutoCommitMessage).
+   - You can install the extension directly from Visual Studio or download and install it from this [link](https://marketplace.visualstudio.com/items?itemName=SamanAzadi1996.AutoCommitMessage).
 
 2. **Open the Extension**:
    - Go to **View** > **Other Windows** > **Auto Commit Message** to open the extension interface.
