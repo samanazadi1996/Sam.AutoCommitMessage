@@ -14,87 +14,62 @@
              d:DesignWidth="300"
              Name="MyToolWindow">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Vertical" Margin="10">
+        <DockPanel>
+            <ToolBar DockPanel.Dock="Top" Background="Transparent">
+                <!-- Buttons with simple text -->
+                <Button Content="Refresh" Click="Refresh_OnClick" ToolTip="Refresh"  Margin="3" Padding="3" Background="Gray"/>
+                <Button Content="Stage" Click="Stage_OnClick" ToolTip="Stage"  Margin="3" Padding="3"  Background="Gray"/>
+                <Button Content="Generate Message" Click="GenerateMessageButton_OnClick" ToolTip="Generate Message"  Margin="3" Padding="3"  Background="Gray"/>
+                <Button Content="Commit" Click="Commit_OnClick" ToolTip="Commit"  Margin="3" Padding="3"  Background="Gray"/>
+                <Button Content="Push" Click="Push_OnClick" ToolTip="Push"  Margin="3" Padding="3"  Background="Gray"/>
+             
+            </ToolBar>
 
-                <!-- Header with Generate Button -->
-                <Border BorderThickness="0,0,0,2" BorderBrush="Gray" Padding="5" Margin="0 0 0 10">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <Grid>
 
-                        <Button x:Name="GenerateMessageButton" 
-                                Click="GenerateMessageButton_OnClick"
-                                Content="Generate Message" 
-                                Padding="5"
-                                HorizontalAlignment="Right"
-                                Margin="0,0 5 0"/>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Orientation="Vertical" Margin="10">
+                        <!-- Display Message -->
+                        <TextBlock x:Name="TextMessage"
+                                   Text="Your generated message will appear here"
+                                   TextWrapping="Wrap"
+                                   Foreground="Gray"
+                                   FontWeight="Bold"
+                                   Background="Transparent"
+                                   Margin="0 0 0 15"/>
 
-                        <Button x:Name="RefreshButton" 
-                                Click="Refresh_OnClick"
-                                Content="Refresh" 
-                                Padding="5"
-                                HorizontalAlignment="Right"
-                                Margin="0,0 5 0"/>
+                        <!-- Input for Message -->
+                        <StackPanel Margin="0 0 0 10">
+                            <Label Content="Message:" FontWeight="Bold"/>
+                            <TextBox Name="CommitMessage" FontWeight="Normal" MinHeight="30" Text="Enter your message here"/>
+                        </StackPanel>
 
-                        <Button  
-                            Content="Stage" 
-                            Click="Stage_OnClick"
-                            Padding="5"
-                            HorizontalAlignment="Right"
-                            Margin="0,0 5 0"/>
+                        <!-- Input for Description -->
+                        <StackPanel Margin="0 0 0 10">
+                            <Label Content="Description:" FontWeight="Bold"/>
+                            <TextBox Name="CommitDescription"
+                                     FontWeight="Normal" 
+                                     MinHeight="100"
+                                     MaxHeight="200"
+                                     TextWrapping="Wrap" 
+                                     AcceptsReturn="True" 
+                                     Tag="Enter description here"/>
+                        </StackPanel>
 
-                        <Button  
-                            Content="Commit" 
-                            Click="Commit_OnClick"
-                            Padding="5"
-                            HorizontalAlignment="Right"
-                            Margin="0,0 5 0"/>
-
-                        <Button  
-                            Content="Push" 
-                            Click="Push_OnClick"
-                            Padding="5"
-                            HorizontalAlignment="Right"
-                            Margin="0,0 5 0"/>
+                        <StackPanel Margin="0 0 0 10">
+                            <Label Content="Changes:" FontWeight="Bold"/>
+                            <TreeView Name="FolderTreeView">
+                                <!-- This TreeView will be populated dynamically -->
+                                <TreeViewItem Header=".." Name="MyTreeViewItem"/>
+                            </TreeView>
+                        </StackPanel>
 
                     </StackPanel>
-                </Border>
+                </ScrollViewer>
 
-                <!-- Display Message -->
-                <TextBlock x:Name="TextMessage"
-                           Text="Your generated message will appear here"
-                           TextWrapping="Wrap"
-                           Foreground="Gray"
-                           FontWeight="Bold"
-                           Background="Transparent"
-                           Margin="0 0 0 15"/>
 
-                <!-- Input for Message -->
-                <StackPanel Margin="0 0 0 10">
-                    <Label Content="Message:" FontWeight="Bold"/>
-                    <TextBox Name="CommitMessage" FontWeight="Normal" MinHeight="30" Text="Enter your message here"/>
-                </StackPanel>
+            </Grid>
+        </DockPanel>
 
-                <!-- Input for Description -->
-                <StackPanel Margin="0 0 0 10">
-                    <Label Content="Description:" FontWeight="Bold"/>
-                    <TextBox Name="CommitDescription"
-                             FontWeight="Normal" 
-                             MinHeight="100"
-                             MaxHeight="200"
-                             TextWrapping="Wrap" 
-                             AcceptsReturn="True" 
-                             Text="Enter description here"/>
-                </StackPanel>
-
-                <StackPanel Margin="0 0 0 10">
-                    <Label Content="Changes:" FontWeight="Bold"/>
-                    <TreeView Grid.Column="1" Margin="10" Name="FolderTreeView">
-                        <!-- This TreeView will be populated dynamically -->
-                        <TreeViewItem Header=".." Name="MyTreeViewItem"/>
-                    </TreeView>
-                </StackPanel>
-
-            </StackPanel>
-        </ScrollViewer>
     </Grid>
 </UserControl>
