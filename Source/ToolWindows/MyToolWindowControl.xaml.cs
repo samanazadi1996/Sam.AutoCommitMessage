@@ -171,5 +171,16 @@ namespace AutoCommitMessage
         {
             ReloadChangeListData();
         }
+
+        private void Pull_OnClick(object sender, RoutedEventArgs e)
+        {
+            var message = Cmd.Shell("git", "pull");
+            
+            UpdateTextMessage("Pull");
+
+            ReloadChangeListData();
+
+            VS.MessageBox.Show(message);
+        }
     }
 }

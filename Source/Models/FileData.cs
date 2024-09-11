@@ -26,24 +26,28 @@ public class FileData
         };
         foreach (var line in lines)
         {
-            var model = new FileData()
+            if (types.TryGetValue(line.Substring(0, 3).Trim(), out var type))
             {
-                IsStaged = !line.StartsWith(" ") && !line.StartsWith("??"),
-                Location = line.Substring(2).Trim(),
-                Type = types[line.Substring(0, 3).Trim()]
-            };
+                var model = new FileData()
+                {
+                    IsStaged = !line.StartsWith(" ") && !line.StartsWith("??"),
+                    Location = line.Substring(2).Trim(),
+                    Type = type
+                };
 
-            if (model.Type == FileType.Renamed)
-            {
-                var fileRename = model.Location.Split(new[] { " -> " }, StringSplitOptions.None);
-                model.Text = $"'{Path.GetFileName(fileRename[0])}' was {model.Type.ToString().ToLower()} to `{Path.GetFileName(fileRename[1])}`";
-            }
-            else
-            {
-                model.Text = $"'{Path.GetFileName(model.Location)}' was {model.Type.ToString().ToLower()}";
+                if (model.Type == FileType.Renamed)
+                {
+                    var fileRename = model.Location.Split(new[] { " -> " }, StringSplitOptions.None);
+                    model.Text = $"'{Path.GetFileName(fileRename[0])}' was {model.Type.ToString().ToLower()} to `{Path.GetFileName(fileRename[1])}`";
+                }
+                else
+                {
+                    model.Text = $"'{Path.GetFileName(model.Location)}' was {model.Type.ToString().ToLower()}";
+                }
+
+                yield return model;
             }
 
-            yield return model;
         }
     }
 
