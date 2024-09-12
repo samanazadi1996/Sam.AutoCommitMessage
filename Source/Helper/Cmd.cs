@@ -6,11 +6,11 @@ namespace AutoCommitMessage.Helper
     {
         public static string Shell(string app, string arg)
         {
-            string directory = AppContext.GetOpenedFolder();
+            var directory = AppContext.GetOpenedFolder();
             if (string.IsNullOrEmpty(directory))
                 return "Invalid directory";
 
-            ProcessStartInfo startInfo = new ProcessStartInfo
+            var startInfo = new ProcessStartInfo
             {
                 WorkingDirectory = directory,
                 FileName = app,
@@ -21,23 +21,16 @@ namespace AutoCommitMessage.Helper
                 CreateNoWindow = true
             };
 
-            using (Process process = new Process())
-            {
-                process.StartInfo = startInfo;
-                process.Start();
+            using var process = new Process();
+            process.StartInfo = startInfo;
+            process.Start();
 
-                string result = process.StandardOutput.ReadToEnd();
-                string error = process.StandardError.ReadToEnd();
+            var result = process.StandardOutput.ReadToEnd();
+            var error = process.StandardError.ReadToEnd();
 
-                process.WaitForExit();
+            process.WaitForExit();
 
-                if (!string.IsNullOrEmpty(error))
-                {
-                    return $"Git error: {error}";
-                }
-
-                return result;
-            }
+            return !string.IsNullOrEmpty(error) ? $"Git error: {error}" : result;
         }
 
     }

@@ -23,7 +23,7 @@
                 <Button Content="Generate Message" Click="GenerateMessageButton_OnClick" ToolTip="Generate Message"  Margin="3" Padding="3"  Background="Gray"/>
                 <Button Content="Commit" Click="Commit_OnClick" ToolTip="Commit"  Margin="3" Padding="3"  Background="Gray"/>
                 <Button Content="Push" Click="Push_OnClick" ToolTip="Push"  Margin="3" Padding="3"  Background="Gray"/>
-             
+
             </ToolBar>
 
             <Grid>
@@ -42,7 +42,9 @@
                         <!-- Input for Message -->
                         <StackPanel Margin="0 0 0 10">
                             <Label Content="Message:" FontWeight="Bold"/>
-                            <TextBox Name="CommitMessage" FontWeight="Normal" MinHeight="30" Text="Enter your message here"/>
+                            <TextBox Name="CommitMessage" 
+                                     FontWeight="Normal" 
+                                     MinHeight="30" />
                         </StackPanel>
 
                         <!-- Input for Description -->
@@ -53,8 +55,7 @@
                                      MinHeight="100"
                                      MaxHeight="200"
                                      TextWrapping="Wrap" 
-                                     AcceptsReturn="True" 
-                                     Text="Enter description here"/>
+                                     AcceptsReturn="True" />
                         </StackPanel>
 
                         <StackPanel Margin="0 0 0 10">

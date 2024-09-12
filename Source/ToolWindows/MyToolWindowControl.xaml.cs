@@ -139,11 +139,25 @@ namespace AutoCommitMessage
 
         private void Commit_OnClick(object sender, RoutedEventArgs e)
         {
-            var message = Cmd.Shell("git", $"commit -m \"{CommitMessage.Text}\" -m \"{CommitDescription.Text}\"");
+            if (string.IsNullOrWhiteSpace(CommitMessage.Text))
+            {
+                VS.MessageBox.Show("Commit message is required");
+                return;
+            }
+
+            var cli = "commit" + AddMessage(CommitMessage.Text) + AddMessage(CommitDescription.Text);
+
+            var message = Cmd.Shell("git", cli);
 
             ReloadChangeListData();
+            ClearMessages();
 
             VS.MessageBox.Show(message);
+
+            return;
+
+            string AddMessage(string msg)
+                => string.IsNullOrWhiteSpace(msg) ? string.Empty : $" -m \"{msg}\"";
         }
 
         private void Push_OnClick(object sender, RoutedEventArgs e)
@@ -153,6 +167,11 @@ namespace AutoCommitMessage
             ReloadChangeListData();
 
             VS.MessageBox.Show(message);
+        }
+        private void ClearMessages()
+        {
+            CommitMessage.Text = string.Empty;
+            CommitDescription.Text = string.Empty;
         }
 
         private void UpdateTextMessage(string text)
@@ -175,7 +194,7 @@ namespace AutoCommitMessage
         private void Pull_OnClick(object sender, RoutedEventArgs e)
         {
             var message = Cmd.Shell("git", "pull");
-            
+
             UpdateTextMessage("Pull");
 
             ReloadChangeListData();
