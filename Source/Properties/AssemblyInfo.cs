@@ -1,4 +1,4 @@
-﻿using AutoCommitMessage;
+using AutoCommitMessage;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion(Vsix.Version)]
 [assembly: AssemblyFileVersion(Vsix.Version)]
 
-namespace System.Runtime.CompilerServices
-{
-    public class IsExternalInit { }
-}
+namespace System.Runtime.CompilerServices;
+
+public class IsExternalInit { }
+

@@ -1,11 +1,11 @@
-﻿namespace AutoCommitMessage
+namespace AutoCommitMessage;
+
+[Command(PackageIds.MyCommand)]
+internal sealed class MyToolWindowCommand : BaseCommand<MyToolWindowCommand>
 {
-    [Command(PackageIds.MyCommand)]
-    internal sealed class MyToolWindowCommand : BaseCommand<MyToolWindowCommand>
+    protected override Task ExecuteAsync(OleMenuCmdEventArgs e)
     {
-        protected override Task ExecuteAsync(OleMenuCmdEventArgs e)
-        {
-            return MyToolWindow.ShowAsync();
-        }
+        return MyToolWindow.ShowAsync();
     }
 }
+

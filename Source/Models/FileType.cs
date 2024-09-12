@@ -1,4 +1,5 @@
-﻿namespace AutoCommitMessage.Models;
+namespace AutoCommitMessage.Models;
+
 public enum FileType
 {
     Modified,

@@ -1,37 +1,37 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
-namespace AutoCommitMessage.Helper
+namespace AutoCommitMessage.Helper;
+
+internal class Cmd
 {
-    internal class Cmd
+    public static string Shell(string app, string arg)
     {
-        public static string Shell(string app, string arg)
+        var directory = AppContext.GetOpenedFolder();
+        if (string.IsNullOrEmpty(directory))
+            return "Invalid directory";
+
+        var startInfo = new ProcessStartInfo
         {
-            var directory = AppContext.GetOpenedFolder();
-            if (string.IsNullOrEmpty(directory))
-                return "Invalid directory";
+            WorkingDirectory = directory,
+            FileName = app,
+            Arguments = arg,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
 
-            var startInfo = new ProcessStartInfo
-            {
-                WorkingDirectory = directory,
-                FileName = app,
-                Arguments = arg,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
+        using var process = new Process();
+        process.StartInfo = startInfo;
+        process.Start();
 
-            using var process = new Process();
-            process.StartInfo = startInfo;
-            process.Start();
+        var result = process.StandardOutput.ReadToEnd();
+        var error = process.StandardError.ReadToEnd();
 
-            var result = process.StandardOutput.ReadToEnd();
-            var error = process.StandardError.ReadToEnd();
+        process.WaitForExit();
 
-            process.WaitForExit();
-
-            return !string.IsNullOrEmpty(error) ? $"Git error: {error}" : result;
-        }
-
+        return !string.IsNullOrEmpty(error) ? $"Git error: {error}" : result;
     }
+
 }
+
