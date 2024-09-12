@@ -1,10 +1,10 @@
-# Automate Your Git Commit Messages with Sam.AutoCommitMessage
+# Automate Your Git Commit Messages with AutoCommitMessage
 
-In the fast-paced world of software development, maintaining a clear and consistent commit history is crucial. Enter **Sam.AutoCommitMessage**, a Visual Studio extension designed to automate the generation of commit messages for Git repositories. This tool not only enhances productivity but also ensures that your commit history remains organized and meaningful.
+In the fast-paced world of software development, maintaining a clear and consistent commit history is crucial. Enter **AutoCommitMessage**, a Visual Studio extension designed to automate the generation of commit messages for Git repositories. This tool not only enhances productivity but also ensures that your commit history remains organized and meaningful.
 
 ## Getting Started
 
-To start using Sam.AutoCommitMessage, follow these simple steps:
+To start using AutoCommitMessage, follow these simple steps:
 
 1. **Install from Marketplace**:
    - You can install the extension directly from Visual Studio or download and install it from this [link](https://marketplace.visualstudio.com/items?itemName=SamanAzadi1996.AutoCommitMessage).
@@ -22,7 +22,7 @@ To start using Sam.AutoCommitMessage, follow these simple steps:
 ## Key Features
 
 ### Automatic Commit Message Generation
-Sam.AutoCommitMessage automatically generates commit messages based on your changes, saving developers valuable time and effort.
+AutoCommitMessage automatically generates commit messages based on your changes, saving developers valuable time and effort.
 
 ### Seamless Integration
 The extension integrates smoothly with Visual Studio, providing a user-friendly interface that enhances the overall coding experience.
@@ -35,4 +35,4 @@ A well-structured commit history helps team members understand changes more easi
 
 ## Conclusion
 
-Sam.AutoCommitMessage is a must-have tool for developers using Visual Studio who want to streamline their workflow and maintain a clear commit history. By automating the commit message process, this extension not only saves time but also enhances collaboration within teams. If you're looking to improve your Git workflow, consider giving Sam.AutoCommitMessage a try!
+AutoCommitMessage is a must-have tool for developers using Visual Studio who want to streamline their workflow and maintain a clear commit history. By automating the commit message process, this extension not only saves time but also enhances collaboration within teams. If you're looking to improve your Git workflow, consider giving AutoCommitMessage a try!
