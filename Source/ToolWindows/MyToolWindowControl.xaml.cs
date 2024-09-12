@@ -178,14 +178,7 @@ public partial class MyToolWindowControl : UserControl
     {
         TextMessage.Text = $"{text} at {DateTime.Now:hh:mm:ss}";
     }
-
-    private void Stage_OnClick(object sender, RoutedEventArgs e)
-    {
-        Cmd.Shell("git", "add .");
-
-        ReloadChangeListData();
-    }
-
+    
     private void Refresh_OnClick(object sender, RoutedEventArgs e)
     {
         ReloadChangeListData();
@@ -200,6 +193,13 @@ public partial class MyToolWindowControl : UserControl
         ReloadChangeListData();
 
         VS.MessageBox.Show(message);
+    }
+
+    private void StageAll_OnClick(object sender, RoutedEventArgs e)
+    {
+        Cmd.Shell("git", "add .");
+
+        ReloadChangeListData();
     }
 }
 

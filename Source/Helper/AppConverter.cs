@@ -37,11 +37,11 @@ internal class AppConverter
                 if (model.Type == FileType.Renamed)
                 {
                     var fileRename = model.Location.Split(new[] { " -> " }, StringSplitOptions.None);
-                    model.Text = $"'{Path.GetFileName(fileRename[0])}' was {model.Type.ToString().ToLower()} to `{Path.GetFileName(fileRename[1])}`";
+                    model.Text = $"'{ConvertLocationToFilename(fileRename[0])}' was {model.Type.ToString().ToLower()} to `{ConvertLocationToFilename(fileRename[1])}`";
                 }
                 else
                 {
-                    model.Text = $"'{Path.GetFileName(model.Location)}' was {model.Type.ToString().ToLower()}";
+                    model.Text = $"'{ConvertLocationToFilename(model.Location)}' was {model.Type.ToString().ToLower()}";
                 }
 
                 result.Add(model);
@@ -85,4 +85,8 @@ internal class AppConverter
         return root.Children;
     }
 
+    public static string ConvertLocationToFilename(string location)
+    {
+        return Path.GetFileName(location.Replace("\"", "").Trim());
+    }
 }

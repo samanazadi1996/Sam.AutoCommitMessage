@@ -19,7 +19,7 @@
                 <!-- Buttons with simple text -->
                 <Button Content="Pull" Click="Pull_OnClick" ToolTip="Pull"  Margin="3" Padding="3" Background="Gray"/>
                 <Button Content="Refresh" Click="Refresh_OnClick" ToolTip="Refresh"  Margin="3" Padding="3" Background="Gray"/>
-                <Button Content="Stage" Click="Stage_OnClick" ToolTip="Stage"  Margin="3" Padding="3"  Background="Gray"/>
+                <Button Content="Stage All" Click="StageAll_OnClick" ToolTip="Stage All"  Margin="3" Padding="3"  Background="Gray"/>
                 <Button Content="Generate Message" Click="GenerateMessageButton_OnClick" ToolTip="Generate Message"  Margin="3" Padding="3"  Background="Gray"/>
                 <Button Content="Commit" Click="Commit_OnClick" ToolTip="Commit"  Margin="3" Padding="3"  Background="Gray"/>
                 <Button Content="Push" Click="Push_OnClick" ToolTip="Push"  Margin="3" Padding="3"  Background="Gray"/>
