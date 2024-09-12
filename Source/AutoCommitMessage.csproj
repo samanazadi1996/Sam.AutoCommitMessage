@@ -46,6 +46,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Helper\AppContext.cs" />
+    <Compile Include="Helper\AppConverter.cs" />
     <Compile Include="Helper\Cmd.cs" />
     <Compile Include="Models\FileNode.cs" />
     <Compile Include="Models\FileType.cs" />

@@ -23,7 +23,7 @@ public partial class MyToolWindowControl : UserControl
 
         var gitShell = Cmd.Shell("git", "status -s");
 
-        ChangeListData = FileData.GetListData(gitShell).ToList();
+        ChangeListData = AppConverter.ConvertToFileDataLost(gitShell);
 
         ReloadTreeView();
     }
@@ -74,7 +74,7 @@ public partial class MyToolWindowControl : UserControl
     {
         MyTreeViewItem.Items.Clear();
 
-        foreach (var path in FileNode.GetFileNode(ChangeListData))
+        foreach (var path in AppConverter.ConvertToFileNodeList(ChangeListData))
         {
             AddFileToTree(MyTreeViewItem, path);
         }

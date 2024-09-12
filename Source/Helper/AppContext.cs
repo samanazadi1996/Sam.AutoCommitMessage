@@ -1,5 +1,5 @@
-using System.IO;
 using Microsoft.VisualStudio.Shell.Interop;
+using System.IO;
 
 namespace AutoCommitMessage.Helper;
 
