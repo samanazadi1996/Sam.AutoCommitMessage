@@ -191,6 +191,9 @@ public partial class MyToolWindowControl : UserControl, IDisposable
 
         ReloadChangeListData();
 
+        if (string.IsNullOrWhiteSpace(message))
+            message = "git push successful";
+
         VS.MessageBox.Show(message);
     }
     private void ClearMessages()
