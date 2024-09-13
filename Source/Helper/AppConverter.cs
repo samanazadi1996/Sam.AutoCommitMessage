@@ -9,8 +9,8 @@ internal class AppConverter
 {
     public static List<FileData> ConvertToFileDataLost(string str)
     {
-        var lines = str
-            .Split(new[] { "\n" }, StringSplitOptions.None)
+
+        var lines = Split(str, "\n")
             .Where(p => !string.IsNullOrEmpty(p));
 
         var types = new Dictionary<string, FileType>()
@@ -27,16 +27,17 @@ internal class AppConverter
         {
             if (types.TryGetValue(line.Substring(0, 3).Trim(), out var type))
             {
+                var change = line.Substring(2).Trim();
                 var model = new FileData()
                 {
                     IsStaged = !line.StartsWith(" ") && !line.StartsWith("??"),
-                    Location = line.Substring(2).Trim(),
+                    Location = Split(change, " -> ").LastOrDefault(),
                     Type = type
                 };
 
                 if (model.Type == FileType.Renamed)
                 {
-                    var fileRename = model.Location.Split(new[] { " -> " }, StringSplitOptions.None);
+                    var fileRename = Split(change, " -> ");
                     model.Text = $"'{ConvertLocationToFilename(fileRename[0])}' was {model.Type.ToString().ToLower()} to `{ConvertLocationToFilename(fileRename[1])}`";
                 }
                 else
@@ -58,7 +59,8 @@ internal class AppConverter
         FileNode root = new FileNode("root");
         foreach (var file in files)
         {
-            var parts = file.Location.Replace("../", "").Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            var parts = Split(file.Location.Replace("../", ""), "/");
+
             var current = root;
 
             // Navigate or create each part of the path
@@ -85,8 +87,12 @@ internal class AppConverter
         return root.Children;
     }
 
-    public static string ConvertLocationToFilename(string location)
+    private static string ConvertLocationToFilename(string location)
     {
         return Path.GetFileName(location.Replace("\"", "").Trim());
+    }
+    private static string[] Split(string data, string str)
+    {
+        return data.Split([str], StringSplitOptions.None);
     }
 }

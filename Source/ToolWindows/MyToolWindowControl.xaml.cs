@@ -1,12 +1,12 @@
 using AutoCommitMessage.EventHandlers;
 using AutoCommitMessage.Helper;
 using AutoCommitMessage.Models;
+using Microsoft.VisualStudio.Shell.Interop;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using AppContext = AutoCommitMessage.Helper.AppContext;
 
 namespace AutoCommitMessage;
 
@@ -27,7 +27,7 @@ public partial class MyToolWindowControl : UserControl, IDisposable
 
     private void StartWatching()
     {
-        var folderPath = AppContext.GetOpenedFolder();
+        var folderPath = ApplicationContext.GetOpenedFolder();
         if (folderPath == null) return;
         _fileChangeWatcher.StartWatching(folderPath);
     }
@@ -39,7 +39,7 @@ public partial class MyToolWindowControl : UserControl, IDisposable
         {
             LockReload = true;
 
-            MyTreeViewItem.Header = AppContext.GetOpenedFolder();
+            MyTreeViewItem.Header = ApplicationContext.GetOpenedFolder();
 
             var gitShell = Cmd.Shell("git", "status -s");
 
@@ -166,7 +166,7 @@ public partial class MyToolWindowControl : UserControl, IDisposable
     {
         if (string.IsNullOrWhiteSpace(CommitMessage.Text))
         {
-            VS.MessageBox.Show("Commit message is required");
+            ShowVsMessageBox("Commit message is required");
             return;
         }
 
@@ -177,7 +177,7 @@ public partial class MyToolWindowControl : UserControl, IDisposable
         ReloadChangeListData();
         ClearMessages();
 
-        VS.MessageBox.Show(message);
+        ShowVsMessageBox(message);
 
         return;
 
@@ -194,7 +194,7 @@ public partial class MyToolWindowControl : UserControl, IDisposable
         if (string.IsNullOrWhiteSpace(message))
             message = "git push successful";
 
-        VS.MessageBox.Show(message);
+        ShowVsMessageBox(message);
     }
     private void ClearMessages()
     {
@@ -220,7 +220,7 @@ public partial class MyToolWindowControl : UserControl, IDisposable
 
         ReloadChangeListData();
 
-        VS.MessageBox.Show(message);
+        ShowVsMessageBox(message);
     }
 
     private void StageAll_OnClick(object sender, RoutedEventArgs e)
@@ -234,6 +234,12 @@ public partial class MyToolWindowControl : UserControl, IDisposable
     {
         _fileChangeWatcher.StopWatching();
         MyToolWindow?.Dispose();
+    }
+    public void ShowVsMessageBox(string message)
+    {
+        if (string.IsNullOrWhiteSpace(message)) return;
+
+        VS.MessageBox.Show(message, buttons: OLEMSGBUTTON.OLEMSGBUTTON_OK);
     }
 }
 

@@ -6,7 +6,7 @@ internal class Cmd
 {
     public static string Shell(string app, string arg)
     {
-        var directory = AppContext.GetOpenedFolder();
+        var directory = ApplicationContext.GetOpenedFolder();
         if (string.IsNullOrEmpty(directory))
             return "Invalid directory";
 

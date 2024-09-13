@@ -3,7 +3,7 @@ using System.IO;
 
 namespace AutoCommitMessage.Helper;
 
-internal class AppContext
+internal class ApplicationContext
 {
     public static string GetOpenedFolder()
     {
