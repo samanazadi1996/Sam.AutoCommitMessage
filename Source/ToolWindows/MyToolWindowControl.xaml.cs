@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace AutoCommitMessage;
 
-public partial class MyToolWindowControl : UserControl, IDisposable
+public partial class MyToolWindowControl : UserControl
 {
     private readonly FileChangeEventHandle _fileChangeWatcher;
     public List<FileData> ChangeListData { get; set; }
@@ -22,13 +22,7 @@ public partial class MyToolWindowControl : UserControl, IDisposable
         _fileChangeWatcher = new FileChangeEventHandle();
         _fileChangeWatcher.OnFileChanged += ReloadChangeListData;
 
-        SolutionEventHandle.OnAfterOpenSolutionAction += StartWatching;
-    }
-    private void StartWatching()
-    {
-        var folderPath = ApplicationContext.GetOpenedFolder();
-        if (folderPath == null) return;
-        _fileChangeWatcher.StartWatching(folderPath);
+        SolutionEventHandle.OnAfterOpenSolutionAction += _fileChangeWatcher.StartWatching;
     }
 
     private void ReloadChangeListData()
@@ -44,7 +38,7 @@ public partial class MyToolWindowControl : UserControl, IDisposable
 
             ChangeListData = AppConverter.ConvertToFileDataLost(gitShell);
 
-            StartWatching();
+            _fileChangeWatcher.StartWatching();
 
             ReloadTreeView();
         }
@@ -231,11 +225,6 @@ public partial class MyToolWindowControl : UserControl, IDisposable
         ReloadChangeListData();
     }
 
-    public void Dispose()
-    {
-        _fileChangeWatcher.StopWatching();
-        MyToolWindow?.Dispose();
-    }
     public void ShowVsMessageBox(string message)
     {
         if (string.IsNullOrWhiteSpace(message)) return;

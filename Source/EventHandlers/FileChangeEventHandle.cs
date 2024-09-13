@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio;
+﻿using AutoCommitMessage.Helper;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 
 namespace AutoCommitMessage.EventHandlers;
@@ -7,57 +8,26 @@ public class FileChangeEventHandle : IVsRunningDocTableEvents, IVsFileChangeEven
 {
     private readonly IVsRunningDocumentTable _rdt = (IVsRunningDocumentTable)Package.GetGlobalService(typeof(SVsRunningDocumentTable));
     private readonly IVsFileChangeEx _fileChangeService = (IVsFileChangeEx)Package.GetGlobalService(typeof(SVsFileChangeEx));
-    private uint _rdtCookie;
-    private uint _vsFileChangeCookie;
-    public bool Started = false;
+    public string FolderPath ;
 
     public event Action OnFileChanged;
 
-    public void StartWatching(string folderPath)
+    public void StartWatching()
     {
-        if (Started) return;
+       var  newFolderPath = ApplicationContext.GetOpenedFolder();
 
-        SubscribeToRunningDocumentTable();
-        SubscribeToFileChanges(folderPath);
-        Started = true;
+        if (FolderPath.Equals(newFolderPath)) return;
+
+        _rdt?.AdviseRunningDocTableEvents(this, out var _rdtCookie);
+        _fileChangeService?.AdviseDirChange(newFolderPath, 1, this, out var _vsFileChangeCookie);
+
+        FolderPath = newFolderPath;
     }
 
-    public void StopWatching()
-    {
-        UnsubscribeFromRunningDocumentTable();
-        UnsubscribeFromFileChanges();
-        Started = false;
-    }
-
-    private void SubscribeToRunningDocumentTable()
-    {
-        _rdt?.AdviseRunningDocTableEvents(this, out _rdtCookie);
-    }
-
-    private void UnsubscribeFromRunningDocumentTable()
-    {
-        if (_rdtCookie == 0 || _rdt == null) return;
-        _rdt.UnadviseRunningDocTableEvents(_rdtCookie);
-        _rdtCookie = 0;
-    }
-
-    private void SubscribeToFileChanges(string folderPath)
-    {
-        _fileChangeService?.AdviseDirChange(folderPath, 1, this, out _vsFileChangeCookie);
-    }
-
-    private void UnsubscribeFromFileChanges()
-    {
-        if (_vsFileChangeCookie == 0 || _fileChangeService == null) return;
-        _fileChangeService.UnadviseDirChange(_vsFileChangeCookie);
-        _vsFileChangeCookie = 0;
-    }
-
-    // IVsRunningDocTableEvents implementation
 
     public int OnAfterSave(uint docCookie)
     {
-        OnFileChanged?.Invoke(); // Trigger event when file is saved
+        OnFileChanged?.Invoke();
         return VSConstants.S_OK;
     }
 
