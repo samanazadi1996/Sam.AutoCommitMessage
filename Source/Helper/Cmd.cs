@@ -26,11 +26,10 @@ internal class Cmd
         process.Start();
 
         var result = process.StandardOutput.ReadToEnd();
-        var error = process.StandardError.ReadToEnd();
 
         process.WaitForExit();
 
-        return !string.IsNullOrEmpty(error) ? $"Git error: {error}" : result;
+        return result;
     }
 
 }

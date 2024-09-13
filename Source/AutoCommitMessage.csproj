@@ -45,6 +45,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="EventHandlers\FileChangeEventHandle.cs" />
+    <Compile Include="EventHandlers\SolutionEventHandle.cs" />
     <Compile Include="Helper\AppContext.cs" />
     <Compile Include="Helper\AppConverter.cs" />
     <Compile Include="Helper\Cmd.cs" />

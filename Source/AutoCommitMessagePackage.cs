@@ -2,6 +2,8 @@ global using Community.VisualStudio.Toolkit;
 global using Microsoft.VisualStudio.Shell;
 global using System;
 global using Task = System.Threading.Tasks.Task;
+using AutoCommitMessage.EventHandlers;
+using Microsoft.VisualStudio.Shell.Interop;
 using System.Runtime.InteropServices;
 using System.Threading;
 
@@ -19,6 +21,11 @@ public sealed class AutoCommitMessagePackage : ToolkitPackage
         await this.RegisterCommandsAsync();
 
         this.RegisterToolWindows();
+        // Add your initialization code here
+        await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+        var solutionService = await GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
+        var solutionEventHandle = new SolutionEventHandle(solutionService);
+
     }
 }
 

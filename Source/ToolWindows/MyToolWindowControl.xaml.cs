@@ -1,3 +1,4 @@
+using AutoCommitMessage.EventHandlers;
 using AutoCommitMessage.Helper;
 using AutoCommitMessage.Models;
 using System.Collections.Generic;
@@ -9,23 +10,47 @@ using AppContext = AutoCommitMessage.Helper.AppContext;
 
 namespace AutoCommitMessage;
 
-public partial class MyToolWindowControl : UserControl
+public partial class MyToolWindowControl : UserControl, IDisposable
 {
+    private readonly FileChangeEventHandle _fileChangeWatcher;
     public List<FileData> ChangeListData { get; set; }
+    public bool LockReload = false;
     public MyToolWindowControl()
     {
         InitializeComponent();
+
+        _fileChangeWatcher = new FileChangeEventHandle();
+        _fileChangeWatcher.OnFileChanged += ReloadChangeListData;
+
+        SolutionEventHandle.OnAfterOpenSolutionAction += StartWatching;
+    }
+
+    private void StartWatching()
+    {
+        var folderPath = AppContext.GetOpenedFolder();
+        if (folderPath == null) return;
+        _fileChangeWatcher.StartWatching(folderPath);
     }
 
     private void ReloadChangeListData()
     {
-        MyTreeViewItem.Header = AppContext.GetOpenedFolder();
+        if (LockReload) return;
+        try
+        {
+            LockReload = true;
 
-        var gitShell = Cmd.Shell("git", "status -s");
+            MyTreeViewItem.Header = AppContext.GetOpenedFolder();
 
-        ChangeListData = AppConverter.ConvertToFileDataLost(gitShell);
+            var gitShell = Cmd.Shell("git", "status -s");
 
-        ReloadTreeView();
+            ChangeListData = AppConverter.ConvertToFileDataLost(gitShell);
+
+            ReloadTreeView();
+        }
+        finally
+        {
+            LockReload = false;
+        }
     }
     private void GenerateMessageButton_OnClick(object sender, RoutedEventArgs e)
     {
@@ -178,7 +203,7 @@ public partial class MyToolWindowControl : UserControl
     {
         TextMessage.Text = $"{text} at {DateTime.Now:hh:mm:ss}";
     }
-    
+
     private void Refresh_OnClick(object sender, RoutedEventArgs e)
     {
         ReloadChangeListData();
@@ -200,6 +225,12 @@ public partial class MyToolWindowControl : UserControl
         Cmd.Shell("git", "add .");
 
         ReloadChangeListData();
+    }
+
+    public void Dispose()
+    {
+        _fileChangeWatcher.StopWatching();
+        MyToolWindow?.Dispose();
     }
 }
 
