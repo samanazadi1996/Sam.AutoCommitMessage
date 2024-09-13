@@ -8,15 +8,15 @@ public class FileChangeEventHandle : IVsRunningDocTableEvents, IVsFileChangeEven
 {
     private readonly IVsRunningDocumentTable _rdt = (IVsRunningDocumentTable)Package.GetGlobalService(typeof(SVsRunningDocumentTable));
     private readonly IVsFileChangeEx _fileChangeService = (IVsFileChangeEx)Package.GetGlobalService(typeof(SVsFileChangeEx));
-    public string FolderPath ;
+    public string FolderPath;
 
     public event Action OnFileChanged;
 
     public void StartWatching()
     {
-       var  newFolderPath = ApplicationContext.GetOpenedFolder();
+        var newFolderPath = ApplicationContext.GetOpenedFolder();
 
-        if (FolderPath.Equals(newFolderPath)) return;
+        if (FolderPath == newFolderPath) return;
 
         _rdt?.AdviseRunningDocTableEvents(this, out var _rdtCookie);
         _fileChangeService?.AdviseDirChange(newFolderPath, 1, this, out var _vsFileChangeCookie);
