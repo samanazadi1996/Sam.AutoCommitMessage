@@ -9,36 +9,36 @@ public class FileChangeEventHandle : IVsRunningDocTableEvents, IVsFileChangeEven
     private readonly IVsFileChangeEx _fileChangeService = (IVsFileChangeEx)Package.GetGlobalService(typeof(SVsFileChangeEx));
     private uint _rdtCookie;
     private uint _vsFileChangeCookie;
+    public bool Started = false;
 
     public event Action OnFileChanged;
 
     public void StartWatching(string folderPath)
     {
+        if (Started) return;
+
         SubscribeToRunningDocumentTable();
         SubscribeToFileChanges(folderPath);
+        Started = true;
     }
 
     public void StopWatching()
     {
         UnsubscribeFromRunningDocumentTable();
         UnsubscribeFromFileChanges();
+        Started = false;
     }
 
     private void SubscribeToRunningDocumentTable()
     {
-        if (_rdt != null)
-        {
-            _rdt.AdviseRunningDocTableEvents(this, out _rdtCookie);
-        }
+        _rdt?.AdviseRunningDocTableEvents(this, out _rdtCookie);
     }
 
     private void UnsubscribeFromRunningDocumentTable()
     {
-        if (_rdtCookie != 0 && _rdt != null)
-        {
-            _rdt.UnadviseRunningDocTableEvents(_rdtCookie);
-            _rdtCookie = 0;
-        }
+        if (_rdtCookie == 0 || _rdt == null) return;
+        _rdt.UnadviseRunningDocTableEvents(_rdtCookie);
+        _rdtCookie = 0;
     }
 
     private void SubscribeToFileChanges(string folderPath)
@@ -48,11 +48,9 @@ public class FileChangeEventHandle : IVsRunningDocTableEvents, IVsFileChangeEven
 
     private void UnsubscribeFromFileChanges()
     {
-        if (_vsFileChangeCookie != 0 && _fileChangeService != null)
-        {
-            _fileChangeService.UnadviseDirChange(_vsFileChangeCookie);
-            _vsFileChangeCookie = 0;
-        }
+        if (_vsFileChangeCookie == 0 || _fileChangeService == null) return;
+        _fileChangeService.UnadviseDirChange(_vsFileChangeCookie);
+        _vsFileChangeCookie = 0;
     }
 
     // IVsRunningDocTableEvents implementation

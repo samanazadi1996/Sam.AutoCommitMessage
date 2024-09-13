@@ -24,7 +24,6 @@ public partial class MyToolWindowControl : UserControl, IDisposable
 
         SolutionEventHandle.OnAfterOpenSolutionAction += StartWatching;
     }
-
     private void StartWatching()
     {
         var folderPath = ApplicationContext.GetOpenedFolder();
@@ -44,6 +43,8 @@ public partial class MyToolWindowControl : UserControl, IDisposable
             var gitShell = Cmd.Shell("git", "status -s");
 
             ChangeListData = AppConverter.ConvertToFileDataLost(gitShell);
+
+            StartWatching();
 
             ReloadTreeView();
         }
