@@ -12,17 +12,18 @@ namespace AutoCommitMessage;
 
 public partial class MyToolWindowControl : UserControl
 {
-    private readonly FileChangeEventHandle _fileChangeWatcher;
+    //private readonly FileChangeEventHandle _fileChangeWatcher;
     public List<FileData> ChangeListData { get; set; }
     public bool LockReload = false;
     public MyToolWindowControl()
     {
         InitializeComponent();
 
-        _fileChangeWatcher = new FileChangeEventHandle();
-        _fileChangeWatcher.OnFileChanged += ReloadChangeListData;
+        //_fileChangeWatcher = new FileChangeEventHandle();
+        //_fileChangeWatcher.OnFileChanged += ReloadChangeListData;
 
-        SolutionEventHandle.OnAfterOpenSolutionAction += _fileChangeWatcher.StartWatching;
+        //SolutionEventHandle.OnAfterOpenSolutionAction += _fileChangeWatcher.StartWatching;
+        SolutionEventHandle.OnAfterOpenSolutionAction += ReloadChangeListData;
     }
 
     private void ReloadChangeListData()
@@ -38,7 +39,7 @@ public partial class MyToolWindowControl : UserControl
 
             ChangeListData = AppConverter.ConvertToFileDataLost(gitShell);
 
-            _fileChangeWatcher.StartWatching();
+            //_fileChangeWatcher.StartWatching();
 
             ReloadTreeView();
         }
