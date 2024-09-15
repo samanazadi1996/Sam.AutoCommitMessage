@@ -23,6 +23,7 @@
                 <Button Content="Generate Message" Click="GenerateMessageButton_OnClick" ToolTip="Automatically generate a commit message based on file changes"  Margin="3" Padding="3"  Background="Gray"/>
                 <Button Content="Commit" Click="Commit_OnClick" ToolTip="Save your changes with a commit to the local repository"  Margin="3" Padding="3"  Background="Gray"/>
                 <Button Content="Push" Click="Push_OnClick" ToolTip="Push your commits to the remote repository"  Margin="3" Padding="3"  Background="Gray"/>
+                <Button Content="Settings" Click="ShowSettings_OnClick" ToolTip="Settings"  Margin="3" Padding="3"  Background="Gray"/>
 
             </ToolBar>
 

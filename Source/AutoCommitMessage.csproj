@@ -55,6 +55,7 @@
     <Compile Include="Models\FileData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\MyToolWindowCommand.cs" />
+    <Compile Include="Commands\SettingsCommand.cs" />
     <Compile Include="AutoCommitMessagePackage.cs" />
     <Compile Include="source.extension.cs">
       <AutoGen>True</AutoGen>
@@ -93,6 +94,16 @@
     </Page>
     <Compile Include="ToolWindows\MyToolWindowControl.xaml.cs">
       <DependentUpon>MyToolWindowControl.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ToolWindows\Settings.cs" />
+    <Page Include="ToolWindows\SettingsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="ToolWindows\SettingsControl.xaml.cs">
+      <DependentUpon>SettingsControl.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

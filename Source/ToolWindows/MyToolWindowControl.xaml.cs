@@ -225,6 +225,11 @@ public partial class MyToolWindowControl : UserControl
 
         ReloadChangeListData();
     }
+    
+    private async void ShowSettings_OnClick(object sender, RoutedEventArgs e)
+    {
+        await Settings.ShowAsync();
+    }
 
     public void ShowVsMessageBox(string message)
     {

@@ -21,5 +21,6 @@ internal sealed partial class PackageGuids
 internal sealed partial class PackageIds
 {
     public const int MyCommand = 0x0100;
+    public const int MyCommand2 = 0x0102;
 }
 
