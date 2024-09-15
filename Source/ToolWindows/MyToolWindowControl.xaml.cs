@@ -14,7 +14,6 @@ public partial class MyToolWindowControl : UserControl
 {
     //private readonly FileChangeEventHandle _fileChangeWatcher;
     public List<FileData> ChangeListData { get; set; }
-    public bool LockReload = false;
     public MyToolWindowControl()
     {
         InitializeComponent();
@@ -28,12 +27,14 @@ public partial class MyToolWindowControl : UserControl
 
     private void ReloadChangeListData()
     {
-        if (LockReload) return;
         try
         {
-            LockReload = true;
+            var cFolder = ApplicationContext.GetOpenedFolder();
 
-            MyTreeViewItem.Header = ApplicationContext.GetOpenedFolder();
+            SettingsModel.Init(cFolder);
+
+
+            MyTreeViewItem.Header = cFolder;
 
             var gitShell = Cmd.Shell("git", "status -s");
 
@@ -43,9 +44,9 @@ public partial class MyToolWindowControl : UserControl
 
             ReloadTreeView();
         }
-        finally
+        catch
         {
-            LockReload = false;
+            // ignored
         }
     }
     private void GenerateMessageButton_OnClick(object sender, RoutedEventArgs e)
@@ -75,6 +76,9 @@ public partial class MyToolWindowControl : UserControl
         {
             UpdateTextMessage("Error");
         }
+
+        return;
+
         string GetCommitMessage(List<FileData> changeListData)
         {
 
@@ -114,8 +118,8 @@ public partial class MyToolWindowControl : UserControl
             if (fileNode.IsStaged.HasValue)
             {
                 newItem.Foreground = fileNode.IsStaged.Value
-                    ? new SolidColorBrush(Colors.LimeGreen)
-                    : new SolidColorBrush(Colors.OrangeRed);
+                    ? new SolidColorBrush(SettingsModel.Data.StagedFileColor)
+                    : new SolidColorBrush(SettingsModel.Data.UnStagedFileColor);
 
 
                 newItem.MouseDoubleClick += (s, e) => { ToggleStage(fileNode); };

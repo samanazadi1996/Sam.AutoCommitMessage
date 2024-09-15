@@ -23,6 +23,41 @@
             </ToolBar>
 
             <Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Orientation="Vertical" Margin="10">
+
+                        <!-- Input for Message -->
+                        <StackPanel Margin="0 0 0 10">
+                            <Label Content="Select Staged File Color:" FontWeight="Bold"/>
+                            <ComboBox x:Name="StagedColorComboBox"  
+                              FontWeight="Normal" 
+                              SelectedValuePath="Tag" Margin="5">
+                                <ComboBoxItem Content="LimeGreen" Tag="LimeGreen"/>
+                                <ComboBoxItem Content="Green" Tag="Green"/>
+                                <ComboBoxItem Content="Blue" Tag="Blue"/>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Margin="0 0 0 10">
+                            <Label Content="Select UnStaged File Color:" FontWeight="Bold"/>
+                            <ComboBox x:Name="UnStagedColorComboBox" SelectedValuePath="Tag" Margin="5"    FontWeight="Normal" >
+                                <ComboBoxItem Content="OrangeRed" Tag="OrangeRed"/>
+                                <ComboBoxItem Content="Red" Tag="Red"/>
+                                <ComboBoxItem Content="Yellow" Tag="Yellow"/>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Margin="0 0 0 10" HorizontalAlignment="Right">
+                            <Button Content="Save" Click="Save_OnClick" ToolTip="Save Changes"  
+                                    Margin="5" 
+                                    Width="70" 
+                                    Padding="3"/>
+
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </ScrollViewer>
 
             </Grid>
         </DockPanel>
