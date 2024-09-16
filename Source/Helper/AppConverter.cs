@@ -56,7 +56,7 @@ internal class AppConverter
     public static List<FileNode> ConvertToFileNodeList(List<FileData> files)
     {
         // Creating the root of the tree
-        FileNode root = new FileNode("root");
+        var root = new FileNode("root");
         foreach (var file in files)
         {
             var parts = Split(file.Location.Replace("../", ""), "/");

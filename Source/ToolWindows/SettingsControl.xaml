@@ -47,6 +47,28 @@
                             </ComboBox>
                         </StackPanel>
 
+                        <StackPanel Margin="0 0 0 10">
+                            <Label Content="Features :" FontWeight="Bold"/>
+                            <CheckBox FontWeight="Normal" Name="PullButton"
+                                      Margin="0 0 0 10">Pull Button</CheckBox>
+
+                            <CheckBox FontWeight="Normal" Name="RefreshButton"
+                                      Margin="0 0 0 10">Refresh Button</CheckBox>
+
+                            <CheckBox FontWeight="Normal" Name="StageAllButton"
+                                      Margin="0 0 0 10">Stage All Button</CheckBox>
+
+                            <CheckBox FontWeight="Normal" Name="GenerateMessageButton"
+                                      Margin="0 0 0 10">Generate Message Button</CheckBox>
+
+                            <CheckBox FontWeight="Normal" Name="CommitButton"
+                                      Margin="0 0 0 10">Commit Button</CheckBox>
+
+                            <CheckBox FontWeight="Normal" Name="PushButton"
+                                      Margin="0 0 0 10">Push Button</CheckBox>
+
+                        </StackPanel>
+
                         <StackPanel Margin="0 0 0 10" HorizontalAlignment="Right">
                             <Button Content="Save" Click="Save_OnClick" ToolTip="Save Changes"  
                                     Margin="5" 

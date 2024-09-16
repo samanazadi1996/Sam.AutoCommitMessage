@@ -3,6 +3,7 @@ using AutoCommitMessage.Helper;
 using AutoCommitMessage.Models;
 using Microsoft.VisualStudio.Shell.Interop;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,17 +13,39 @@ namespace AutoCommitMessage;
 
 public partial class MyToolWindowControl : UserControl
 {
-    //private readonly FileChangeEventHandle _fileChangeWatcher;
     public List<FileData> ChangeListData { get; set; }
     public MyToolWindowControl()
     {
         InitializeComponent();
 
-        //_fileChangeWatcher = new FileChangeEventHandle();
-        //_fileChangeWatcher.OnFileChanged += ReloadChangeListData;
+        SettingsModel.SettingsChanged += LoadSettings;
+        SolutionEventHandle.OnAfterOpenSolutionAction += LoadSettings;
+    }
 
-        //SolutionEventHandle.OnAfterOpenSolutionAction += _fileChangeWatcher.StartWatching;
-        SolutionEventHandle.OnAfterOpenSolutionAction += ReloadChangeListData;
+
+    private void LoadSettings()
+    {
+        ReloadChangeListData();
+
+        UpdateVisibility(PullButton, SettingsModel.Data.PullButton);
+        UpdateVisibility(RefreshButton, SettingsModel.Data.RefreshButton);
+        UpdateVisibility(StageAllButton, SettingsModel.Data.StageAllButton);
+        UpdateVisibility(GenerateMessageButton, SettingsModel.Data.GenerateMessageButton);
+        UpdateVisibility(CommitButton, SettingsModel.Data.CommitButton);
+        UpdateVisibility(PushButton, SettingsModel.Data.PushButton);
+        return;
+
+        void UpdateVisibility(Button button, bool visibility)
+        {
+            button.Visibility = visibility ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+    }
+
+    protected override void OnGotFocus(RoutedEventArgs e)
+    {
+        LoadSettings();
+        base.OnGotFocus(e);
     }
 
     private void ReloadChangeListData()
@@ -81,7 +104,6 @@ public partial class MyToolWindowControl : UserControl
 
         string GetCommitMessage(List<FileData> changeListData)
         {
-
             var detailedMessage = string.Join(" and ", changeListData.Select(p => p.Text));
 
             if (detailedMessage.Length <= 150) return detailedMessage;
@@ -229,7 +251,7 @@ public partial class MyToolWindowControl : UserControl
 
         ReloadChangeListData();
     }
-    
+
     private async void ShowSettings_OnClick(object sender, RoutedEventArgs e)
     {
         await Settings.ShowAsync();

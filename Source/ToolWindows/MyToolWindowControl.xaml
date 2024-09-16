@@ -15,14 +15,14 @@
              Name="MyToolWindow">
     <Grid>
         <DockPanel>
-            <ToolBar DockPanel.Dock="Top" Background="Transparent">
+            <ToolBar DockPanel.Dock="Top" Background="Transparent" >
                 <!-- Buttons with simple text -->
-                <Button Content="Pull" Click="Pull_OnClick" ToolTip="Fetch and merge changes from the remote repository"  Margin="3" Padding="3" Background="Gray"/>
-                <Button Content="Refresh" Click="Refresh_OnClick" ToolTip="Reload and update the file change list"  Margin="3" Padding="3" Background="Gray"/>
-                <Button Content="Stage All" Click="StageAll_OnClick" ToolTip="Stage all modified files for commit"  Margin="3" Padding="3"  Background="Gray"/>
-                <Button Content="Generate Message" Click="GenerateMessageButton_OnClick" ToolTip="Automatically generate a commit message based on file changes"  Margin="3" Padding="3"  Background="Gray"/>
-                <Button Content="Commit" Click="Commit_OnClick" ToolTip="Save your changes with a commit to the local repository"  Margin="3" Padding="3"  Background="Gray"/>
-                <Button Content="Push" Click="Push_OnClick" ToolTip="Push your commits to the remote repository"  Margin="3" Padding="3"  Background="Gray"/>
+                <Button Name="PullButton"  Content="Pull" Click="Pull_OnClick" ToolTip="Fetch and merge changes from the remote repository"  Margin="3" Padding="3" Background="Gray"/>
+                <Button Name="RefreshButton" Content="Refresh" Click="Refresh_OnClick" ToolTip="Reload and update the file change list"  Margin="3" Padding="3" Background="Gray"/>
+                <Button Name="StageAllButton" Content="Stage All" Click="StageAll_OnClick" ToolTip="Stage all modified files for commit"  Margin="3" Padding="3"  Background="Gray"/>
+                <Button Name="GenerateMessageButton" Content="Generate Message" Click="GenerateMessageButton_OnClick" ToolTip="Automatically generate a commit message based on file changes"  Margin="3" Padding="3"  Background="Gray"/>
+                <Button Name="CommitButton" Content="Commit" Click="Commit_OnClick" ToolTip="Save your changes with a commit to the local repository"  Margin="3" Padding="3"  Background="Gray"/>
+                <Button Name="PushButton" Content="Push" Click="Push_OnClick" ToolTip="Push your commits to the remote repository"  Margin="3" Padding="3"  Background="Gray"/>
                 <Button Content="Settings" Click="ShowSettings_OnClick" ToolTip="Settings"  Margin="3" Padding="3"  Background="Gray"/>
 
             </ToolBar>

@@ -18,8 +18,19 @@ public partial class SettingsControl : UserControl
         LoadColors();
 
         PopulateColorDropdowns();
+
+        LoadButtonstates();
     }
 
+    private void LoadButtonstates()
+    {
+        CommitButton.IsChecked = SettingsModel.Data.CommitButton;
+        GenerateMessageButton.IsChecked = SettingsModel.Data.GenerateMessageButton;
+        PullButton.IsChecked = SettingsModel.Data.PullButton;
+        PushButton.IsChecked = SettingsModel.Data.PushButton;
+        RefreshButton.IsChecked = SettingsModel.Data.RefreshButton;
+        StageAllButton.IsChecked = SettingsModel.Data.StageAllButton;
+    }
     private void LoadColors()
     {
         AvailableColors = typeof(Colors).GetProperties(BindingFlags.Static | BindingFlags.Public)
@@ -100,7 +111,13 @@ public partial class SettingsControl : UserControl
         var model = new SettingsModel.Model
         {
             StagedFileColor = stagedFileColor,
-            UnStagedFileColor = unStagedFileColor
+            UnStagedFileColor = unStagedFileColor,
+            CommitButton = CommitButton.IsChecked == true,
+            GenerateMessageButton = GenerateMessageButton.IsChecked == true,
+            PullButton = PullButton.IsChecked == true,
+            PushButton = PushButton.IsChecked == true,
+            RefreshButton = RefreshButton.IsChecked == true,
+            StageAllButton = StageAllButton.IsChecked == true
         };
 
         SettingsModel.Save(ApplicationContext.GetOpenedFolder(), model);
