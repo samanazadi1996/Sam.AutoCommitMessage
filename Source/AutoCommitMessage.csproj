@@ -117,7 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Community.VisualStudio.VSCT" Version="16.0.29.6" PrivateAssets="all" />
-    <PackageReference Include="Community.VisualStudio.Toolkit.17" Version="17.0.507" ExcludeAssets="Runtime" />
+    <PackageReference Include="Community.VisualStudio.Toolkit.17" Version="17.0.522" ExcludeAssets="Runtime" />
     <PackageReference Include="Extended.Wpf.Toolkit">
       <Version>4.6.1</Version>
     </PackageReference>
