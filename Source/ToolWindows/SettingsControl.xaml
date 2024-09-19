@@ -8,6 +8,7 @@
              xmlns:util="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Utilities"
              xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
              xmlns:toolkit="clr-namespace:Community.VisualStudio.Toolkit;assembly=Community.VisualStudio.Toolkit"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              toolkit:Themes.UseVsTheme="True"
              mc:Ignorable="d"
              d:DesignHeight="300"
@@ -19,6 +20,7 @@
             <ToolBar DockPanel.Dock="Top" Background="Transparent">
                 <!-- Buttons with simple text -->
                 <Button Content="Back" Click="Back_OnClick" ToolTip="Back"  Margin="3" Padding="3" Background="Gray"/>
+                <Button Content="Refresh" Click="Refresh_OnClick" ToolTip="Reload and update the file change list"  Margin="3" Padding="3" Background="Gray"/>
 
             </ToolBar>
 
@@ -26,25 +28,15 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Orientation="Vertical" Margin="10">
 
-                        <!-- Input for Message -->
                         <StackPanel Margin="0 0 0 10">
                             <Label Content="Select Staged File Color:" FontWeight="Bold"/>
-                            <ComboBox x:Name="StagedColorComboBox"  
-                              FontWeight="Normal" 
-                              SelectedValuePath="Tag" Margin="5">
-                                <ComboBoxItem Content="LimeGreen" Tag="LimeGreen"/>
-                                <ComboBoxItem Content="Green" Tag="Green"/>
-                                <ComboBoxItem Content="Blue" Tag="Blue"/>
-                            </ComboBox>
+                            <xctk:ColorPicker x:Name="StagedColorPicker" SelectedColor="LimeGreen" Margin="5"/>
                         </StackPanel>
 
+                        <!-- Input for Unstaged File Color -->
                         <StackPanel Margin="0 0 0 10">
                             <Label Content="Select UnStaged File Color:" FontWeight="Bold"/>
-                            <ComboBox x:Name="UnStagedColorComboBox" SelectedValuePath="Tag" Margin="5"    FontWeight="Normal" >
-                                <ComboBoxItem Content="OrangeRed" Tag="OrangeRed"/>
-                                <ComboBoxItem Content="Red" Tag="Red"/>
-                                <ComboBoxItem Content="Yellow" Tag="Yellow"/>
-                            </ComboBox>
+                            <xctk:ColorPicker x:Name="UnstagedColorPicker" SelectedColor="OrangeRed" Margin="5"/>
                         </StackPanel>
 
                         <StackPanel Margin="0 0 0 10">
