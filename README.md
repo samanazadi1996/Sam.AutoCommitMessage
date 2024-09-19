@@ -1,5 +1,8 @@
 # Automate Your Git Commit Messages with AutoCommitMessage
 
+[![marketplace](https://img.shields.io/visual-studio-marketplace/v/SamanAzadi1996.AutoCommitMessage?label=marketplace&color=orchid)](https://marketplace.visualstudio.com/items?itemName=SamanAzadi1996.AutoCommitMessage)
+
+
 In the fast-paced world of software development, maintaining a clear and consistent commit history is crucial. Enter **AutoCommitMessage**, a Visual Studio extension designed to automate the generation of commit messages for Git repositories. This tool not only enhances productivity but also ensures that your commit history remains organized and meaningful.
 
 ## Getting Started
